@@ -1,0 +1,21 @@
+textarea {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+code, pre, textarea {
+  font-family: Monaco, monospace;
+}
+
+.input {
+  width: 45vw;
+  height: 85vh;
+  float: left;
+}
+
+.output {
+  width: 45vw;
+  height: 85vh;
+  float: right;
+}

@@ -18,7 +18,11 @@ import Reflex.Dom
 import Desugar.DoNotation as Do
 
 main = mainWidget $ do
-  el "p" (text "Paste valid Haskell here and see what happens.")
+  el "h1" (text "Haskell Desugarer")
+  el "p"  (text "Paste valid Haskell here and see what happens.")
+  el "p" (text "This was built hastily with Reflex, GHCJS, \
+               \ haskell-src-exts, and hscolour. \
+               \ Doesn't support most GHC extensions, for now.")
   el "div" $ do
     input     <- codeInput
     resultDbl <- mapDyn pretty input
@@ -33,12 +37,14 @@ colourise = hscolour defaultColourPrefs False 0
 
 codeInput :: MonadWidget t m => m (Dynamic t (ParseResult Module))
 codeInput = do
-  let cfg = TextAreaConfig "main = undefined" never (constDyn attrs)
-      attrs = Map.singleton "style" "width: 45vw; height: 90vh; float: left;"
+  let cfg = TextAreaConfig defaultCode never (constDyn attrs)
+      attrs = Map.singleton "class" "input"
   ta <- textArea cfg
   result <- mapDyn parseModule (_textArea_value ta)
   return result
 
 displayWidget :: MonadWidget t m => Dynamic t String -> m (El t)
-displayWidget = elDynHtmlAttr' "div" (Map.singleton "style"
-                  "float: right; width: 50vw; height: 90vh;")
+displayWidget = elDynHtmlAttr' "div" (Map.singleton "class" "output")
+
+defaultCode :: String
+defaultCode = "main :: IO ()\nmain = do\n  a <- b\n  return (do return a)"
