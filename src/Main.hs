@@ -19,6 +19,8 @@ import Reflex.Dom
 import Desugar.DoNotation as Do
 import Desugar.IfThenElse as If
 import Desugar.ListComp   as ListComp
+import Desugar.NumLits    as NumLits
+import Desugar.Currying   as Currying
 
 main = mainWidget $ do
   el "h1" (text "Haskell Desugarer")
@@ -57,6 +59,8 @@ transformations = Map.fromList
   [("unrolldo",   "Desugar do-notation")
   ,("unrollif",   "Desugar if-then-else")
   ,("listcompdo", "Desugar list comprehensions")
+  ,("numlits",    "Desugar numeric literals")
+  ,("currying",   "Desugar implied currying")
   ,("id",         "Do nothing")
   ]
 
@@ -65,6 +69,8 @@ strToFun s = case s of
   "unrolldo"   -> Do.go
   "unrollif"   -> If.go
   "listcompdo" -> ListComp.go
+  "numlits"    -> NumLits.go
+  "currying"   -> Currying.go
   "id"         -> id
   _            -> error ("Bad input: " ++ s)
 
