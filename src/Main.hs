@@ -13,13 +13,12 @@ import Language.Haskell.Exts.Parser
 import Language.Haskell.Exts.Pretty
 import Language.Haskell.Exts.Syntax
 
-import Debug.Trace
-
 import Reflex
 import Reflex.Dom
 
 import Desugar.DoNotation as Do
 import Desugar.IfThenElse as If
+import Desugar.ListComp   as ListComp
 
 main = mainWidget $ do
   el "h1" (text "Haskell Desugarer")
@@ -55,17 +54,19 @@ displayWidget = elDynHtmlAttr' "div" (Map.singleton "class" "output")
 
 transformations :: Map.Map String String
 transformations = Map.fromList
-  [("unrolldo", "Desugar do-notation")
-  ,("unrollif", "Desugar if-then-else")
-  ,("id", "Do nothing")
+  [("unrolldo",   "Desugar do-notation")
+  ,("unrollif",   "Desugar if-then-else")
+  ,("listcompdo", "Desugar list comprehensions")
+  ,("id",         "Do nothing")
   ]
 
 strToFun :: Data a => String -> a -> a
 strToFun s = case s of
-  "unrolldo" -> Do.go
-  "unrollif" -> If.go
-  "id"       -> id
-  _          -> error ("Bad input: " ++ s)
+  "unrolldo"   -> Do.go
+  "unrollif"   -> If.go
+  "listcompdo" -> ListComp.go
+  "id"         -> id
+  _            -> error ("Bad input: " ++ s)
 
 -- XXX Would be fun to TH-splice this file in
 defaultCode :: String

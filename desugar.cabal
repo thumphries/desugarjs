@@ -17,7 +17,9 @@ cabal-version:       >=1.10
 
 executable desugar
   main-is:             Main.hs
-  other-modules:       Desugar.DoNotation
+  other-modules:       Desugar.DoNotation,
+                       Desugar.IfThenElse,
+                       Desugar.ListComp
   -- other-extensions:    
   build-depends:       base >=4.8 && <4.9, haskell-src-exts, syb,
                        reflex, reflex-dom, containers, hscolour,
